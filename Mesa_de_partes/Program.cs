@@ -24,6 +24,15 @@ class ConsultaExpedientes
             return;
         }
 
+               Console.Write("Ingrese DNI del solicitante (8 digitos): ");
+        string dni = Console.ReadLine() ?? "";
+
+        if (dni.Length != 8 || !dni.All(char.IsDigit))
+        {
+            Console.WriteLine("Error: el DNI debe tener 8 digitos numericos.");
+            return;
+        }
+
         Console.WriteLine($"Expediente a consultar: {expediente}");
     }
 }
