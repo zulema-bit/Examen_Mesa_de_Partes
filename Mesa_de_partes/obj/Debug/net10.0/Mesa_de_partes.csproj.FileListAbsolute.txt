@@ -1,0 +1,17 @@
+C:\mesa de partes fundamentos de programacion\Examen_Mesa_de_Partes\Mesa_de_partes\bin\Debug\net10.0\Mesa_de_partes.exe
+C:\mesa de partes fundamentos de programacion\Examen_Mesa_de_Partes\Mesa_de_partes\bin\Debug\net10.0\Mesa_de_partes.deps.json
+C:\mesa de partes fundamentos de programacion\Examen_Mesa_de_Partes\Mesa_de_partes\bin\Debug\net10.0\Mesa_de_partes.runtimeconfig.json
+C:\mesa de partes fundamentos de programacion\Examen_Mesa_de_Partes\Mesa_de_partes\bin\Debug\net10.0\Mesa_de_partes.runtimeconfig.dev.json
+C:\mesa de partes fundamentos de programacion\Examen_Mesa_de_Partes\Mesa_de_partes\bin\Debug\net10.0\Mesa_de_partes.dll
+C:\mesa de partes fundamentos de programacion\Examen_Mesa_de_Partes\Mesa_de_partes\bin\Debug\net10.0\Mesa_de_partes.pdb
+C:\mesa de partes fundamentos de programacion\Examen_Mesa_de_Partes\Mesa_de_partes\obj\Debug\net10.0\Mesa_de_partes.GeneratedMSBuildEditorConfig.editorconfig
+C:\mesa de partes fundamentos de programacion\Examen_Mesa_de_Partes\Mesa_de_partes\obj\Debug\net10.0\Mesa_de_partes.AssemblyInfoInputs.cache
+C:\mesa de partes fundamentos de programacion\Examen_Mesa_de_Partes\Mesa_de_partes\obj\Debug\net10.0\Mesa_de_partes.AssemblyInfo.cs
+C:\mesa de partes fundamentos de programacion\Examen_Mesa_de_Partes\Mesa_de_partes\obj\Debug\net10.0\Mesa_de_partes.csproj.CoreCompileInputs.cache
+C:\mesa de partes fundamentos de programacion\Examen_Mesa_de_Partes\Mesa_de_partes\obj\Debug\net10.0\Mesa_de_partes.sourcelink.json
+C:\mesa de partes fundamentos de programacion\Examen_Mesa_de_Partes\Mesa_de_partes\obj\Debug\net10.0\Mesa_de_partes.dll
+C:\mesa de partes fundamentos de programacion\Examen_Mesa_de_Partes\Mesa_de_partes\obj\Debug\net10.0\refint\Mesa_de_partes.dll
+C:\mesa de partes fundamentos de programacion\Examen_Mesa_de_Partes\Mesa_de_partes\obj\Debug\net10.0\Mesa_de_partes.pdb
+C:\mesa de partes fundamentos de programacion\Examen_Mesa_de_Partes\Mesa_de_partes\obj\Debug\net10.0\Mesa_de_partes.genruntimeconfig.cache
+C:\mesa de partes fundamentos de programacion\Examen_Mesa_de_Partes\Mesa_de_partes\obj\Debug\net10.0\ref\Mesa_de_partes.dll
+C:\mesa de partes fundamentos de programacion\Examen_Mesa_de_Partes\Mesa_de_partes\obj\Debug\net10.0\Mesa_de_.14FA709B.Up2Date
