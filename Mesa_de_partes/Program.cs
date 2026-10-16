@@ -18,39 +18,83 @@ namespace Mesa_De_Partes
             if (opcion == "1")
             {
                 Console.WriteLine("\n--- DATOS DEL SOLICITANTE ---");
-                Console.Write("Ingrese DNI (8 dígitos): ");
-                string dni = Console.ReadLine();
-
-                // Validación del DNI
-                if (string.IsNullOrEmpty(dni) || dni.Length != 8)
+                string dni = "";
+                
+                while (true)
                 {
-                    Console.WriteLine("Error: El DNI debe tener exactamente 8 dígitos.");
-                    return;
+                    Console.Write("Ingrese DNI (8 dígitos): ");
+                    dni = Console.ReadLine();
+
+                    if (dni != null && dni.Length == 8)
+                    {
+                        break;
+                    }
+                    Console.WriteLine("Error: El DNI debe tener exactamente 8 dígitos. Intente nuevamente.");
                 }
                 
-                Console.Write("Ingrese Nombres y Apellidos: ");
-                string nombres = Console.ReadLine();
+                string nombres = "";
+                while (true)
+                {
+                    Console.Write("Ingrese Nombres y Apellidos: ");
+                    nombres = Console.ReadLine();
+
+                    if (nombres != null && nombres.Trim().Length > 0)
+                    {
+                        break;
+                    }
+                    Console.WriteLine("Error: El nombre y apellido no puede estar vacío. Intente nuevamente.");
+                }
 
                 Console.WriteLine("\n--- DATOS DEL DOCUMENTO ---");
-                Console.Write("Ingrese el Tipo de Documento (Ej. Oficio, Solicitud): ");
-                string tipoDocumento = Console.ReadLine();
+                string tipoDocumento = "";
+                while (true)
+                {
+                    Console.Write("Ingrese el Tipo de Documento (Ej. Oficio, Solicitud): ");
+                    tipoDocumento = Console.ReadLine();
 
-                Console.Write("Ingrese el Asunto o Motivo: ");
-                string asunto = Console.ReadLine();
+                    if (tipoDocumento != null && tipoDocumento.Trim().Length > 0)
+                    {
+                        break;
+                    }
+                    Console.WriteLine("Error: El tipo de documento no puede estar vacío.");
+                }
 
-                Random random = new Random();
-                int numeroExpediente = random.Next(1000, 9999);
-                DateTime fechaRegistro = DateTime.Now;
+                string asunto = "";
+                while (true)
+                {
+                    Console.Write("Ingrese el Asunto o Motivo: ");
+                    asunto = Console.ReadLine();
 
-                Console.WriteLine("\n========================================");
-                Console.WriteLine("      EXPEDIENTE GENERADO CON ÉXITO     ");
-                Console.WriteLine("========================================");
-                Console.WriteLine($"Nro. Expediente : EXP-{numeroExpediente}");
-                Console.WriteLine($"Fecha y Hora    : {fechaRegistro}");
-                Console.WriteLine($"Solicitante     : {nombres} (DNI: {dni})");
-                Console.WriteLine($"Documento       : {tipoDocumento}");
-                Console.WriteLine($"Asunto          : {asunto}");
-                Console.WriteLine("========================================");
+                    if (asunto != null && asunto.Trim().Length > 0)
+                    {
+                        break;
+                    }
+                    Console.WriteLine("Error: El asunto no puede estar vacío.");
+                }
+
+                Console.Write("\n¿Desea confirmar el registro de este documento? (S/N): ");
+                string confirmacion = Console.ReadLine()?.Trim().ToUpper();
+
+                if (confirmacion == "S")
+                {
+                    Random random = new Random();
+                    int numeroExpediente = random.Next(1000, 9999);
+                    DateTime fechaRegistro = DateTime.Now;
+
+                    Console.WriteLine("\n========================================");
+                    Console.WriteLine("      EXPEDIENTE GENERADO CON ÉXITO     ");
+                    Console.WriteLine("========================================");
+                    Console.WriteLine($"Nro. Expediente : EXP-{numeroExpediente}");
+                    Console.WriteLine($"Fecha y Hora    : {fechaRegistro}");
+                    Console.WriteLine($"Solicitante     : {nombres} (DNI: {dni})");
+                    Console.WriteLine($"Documento       : {tipoDocumento}");
+                    Console.WriteLine($"Asunto          : {asunto}");
+                    Console.WriteLine("========================================");
+                }
+                else
+                {
+                    Console.WriteLine("\nRegistro cancelado por el usuario.");
+                }
             }
             else
             {
