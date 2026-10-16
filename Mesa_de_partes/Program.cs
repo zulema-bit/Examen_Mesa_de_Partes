@@ -6,7 +6,6 @@ namespace Mesa_De_Partes
     {
         static void Main(string[] args)
         {
-            // Menú principal
             Console.WriteLine("========================================");
             Console.WriteLine("   SISTEMA DE MESA DE PARTES - MUNI     ");
             Console.WriteLine("========================================");
@@ -18,7 +17,6 @@ namespace Mesa_De_Partes
 
             if (opcion == "1")
             {
-                // Captura de datos del ciudadano
                 Console.WriteLine("\n--- DATOS DEL SOLICITANTE ---");
                 Console.Write("Ingrese DNI (8 dígitos): ");
                 string dni = Console.ReadLine();
@@ -26,13 +24,26 @@ namespace Mesa_De_Partes
                 Console.Write("Ingrese Nombres y Apellidos: ");
                 string nombres = Console.ReadLine();
 
-                // Captura de datos del documento (Commit 3)
                 Console.WriteLine("\n--- DATOS DEL DOCUMENTO ---");
                 Console.Write("Ingrese el Tipo de Documento (Ej. Oficio, Solicitud): ");
                 string tipoDocumento = Console.ReadLine();
 
                 Console.Write("Ingrese el Asunto o Motivo: ");
                 string asunto = Console.ReadLine();
+
+                Random random = new Random();
+                int numeroExpediente = random.Next(1000, 9999);
+                DateTime fechaRegistro = DateTime.Now;
+
+                Console.WriteLine("\n========================================");
+                Console.WriteLine("      EXPEDIENTE GENERADO CON ÉXITO     ");
+                Console.WriteLine("========================================");
+                Console.WriteLine($"Nro. Expediente : EXP-{numeroExpediente}");
+                Console.WriteLine($"Fecha y Hora    : {fechaRegistro}");
+                Console.WriteLine($"Solicitante     : {nombres} (DNI: {dni})");
+                Console.WriteLine($"Documento       : {tipoDocumento}");
+                Console.WriteLine($"Asunto          : {asunto}");
+                Console.WriteLine("========================================");
             }
             else
             {
