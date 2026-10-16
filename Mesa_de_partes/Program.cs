@@ -20,6 +20,13 @@ namespace Mesa_De_Partes
                 Console.WriteLine("\n--- DATOS DEL SOLICITANTE ---");
                 Console.Write("Ingrese DNI (8 dígitos): ");
                 string dni = Console.ReadLine();
+
+                // Validación del DNI
+                if (string.IsNullOrEmpty(dni) || dni.Length != 8)
+                {
+                    Console.WriteLine("Error: El DNI debe tener exactamente 8 dígitos.");
+                    return;
+                }
                 
                 Console.Write("Ingrese Nombres y Apellidos: ");
                 string nombres = Console.ReadLine();
