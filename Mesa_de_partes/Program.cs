@@ -21,19 +21,25 @@ namespace Mesa_de_partes
                 Console.WriteLine("5. Salir");
                 Console.WriteLine("======================================");
                 Console.Write("Seleccione una opcion: ");
-
-              
+                
                 string entrada = Console.ReadLine();
 
-                if (string.IsNullOrWhiteSpace(entrada) ||!int.TryParse(entrada, out opcion))
+                if (string.IsNullOrWhiteSpace(entrada) || !int.TryParse(entrada, out opcion))
                 {
-               
+    
                 opcion = 0;
                 Console.WriteLine("Error: ingrese un numero del 1 al 5.");
 
                 }
 
-                switch (opcion)
+                else if (opcion < 1 || opcion > 5)
+             
+                {
+                opcion = 0;
+                Console.WriteLine("Error: seleccione una opcion entre 1 y 5.");
+                }
+
+                 switch (opcion)
                 {
                     case 1:
                         Console.WriteLine("Modulo de registro de documentos.");
