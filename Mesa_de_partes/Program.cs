@@ -22,9 +22,15 @@ namespace Mesa_de_partes
                 Console.WriteLine("======================================");
                 Console.Write("Seleccione una opcion: ");
 
-                if (!int.TryParse(Console.ReadLine(), out opcion))
+              
+                string entrada = Console.ReadLine();
+
+                if (string.IsNullOrWhiteSpace(entrada) ||!int.TryParse(entrada, out opcion))
                 {
-                    opcion = 0;
+               
+                opcion = 0;
+                Console.WriteLine("Error: ingrese un numero del 1 al 5.");
+
                 }
 
                 switch (opcion)
@@ -40,7 +46,7 @@ namespace Mesa_de_partes
                     case 3:
                         Console.WriteLine("Modulo de clasificacion y derivacion.");
                         break;
-
+                        
                     case 4:
                         Console.WriteLine("Modulo de consulta de expedientes.");
                         break;
