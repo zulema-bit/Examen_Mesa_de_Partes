@@ -47,6 +47,10 @@ class ConsultaExpedientes
             Console.WriteLine("Error: ingrese una opcion valida del 1 al 3.");
             return;
         }
-        Console.WriteLine($"Expediente a consultar: {expediente}");
+        
+        Console.WriteLine("\nConsulta registrada.");
+        Console.WriteLine($"Expediente: {expediente}");
+        Console.WriteLine($"DNI del solicitante: {dni}");
+        Console.WriteLine($"Opcion seleccionada: {opcion}");
     }
 }

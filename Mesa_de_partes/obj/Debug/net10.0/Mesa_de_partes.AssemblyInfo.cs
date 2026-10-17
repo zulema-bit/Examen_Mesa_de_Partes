@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Mesa_de_partes")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+be081dc779e87ed805f66ede40c065546a93c36b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3dfa9b5c6c6e2ffb4777d923ed974719d29dee00")]
 [assembly: System.Reflection.AssemblyProductAttribute("Mesa_de_partes")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Mesa_de_partes")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
