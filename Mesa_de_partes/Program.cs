@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 class Program
 {
@@ -16,7 +17,7 @@ class ConsultaExpedientes
         Console.WriteLine("=== CONSULTA Y SEGUIMIENTO DE EXPEDIENTES ===");
 
         Console.Write("Ingrese el numero de expediente: ");
-        string expediente = Console.ReadLine() ?? "";
+        string expediente = (Console.ReadLine() ?? "").Trim().ToUpper();
 
         if (string.IsNullOrWhiteSpace(expediente))
         {
@@ -24,8 +25,8 @@ class ConsultaExpedientes
             return;
         }
 
-               Console.Write("Ingrese DNI del solicitante (8 digitos): ");
-        string dni = Console.ReadLine() ?? "";
+        Console.Write("Ingrese DNI del solicitante (8 digitos): ");
+        string dni = (Console.ReadLine() ?? "").Trim();
 
         if (dni.Length != 8 || !dni.All(char.IsDigit))
         {
