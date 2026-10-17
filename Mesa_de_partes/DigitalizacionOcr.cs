@@ -18,6 +18,26 @@ public static class DigitalizacionOcr
 
     public static void Ejecutar()
     {
+        int opcion;
+        do
+        {
+            Console.WriteLine("\n=== DIGITALIZACIÓN Y OCR ===");
+            Console.WriteLine("1. Digitalizar documento");
+            Console.WriteLine("0. Volver");
+            Console.Write("Elige una opción: ");
+            int.TryParse(Console.ReadLine(), out opcion);
+
+            switch (opcion)
+            {
+                case 1: DigitalizarDocumento(); break;
+                case 0: break;
+                default: Console.WriteLine("Opción inválida."); break;
+            }
+        } while (opcion != 0);
+    }
+
+    static void DigitalizarDocumento()
+    {
         Console.Write("Ruta del documento a digitalizar: ");
         string ruta = Console.ReadLine() ?? "";
 
@@ -44,6 +64,7 @@ public static class DigitalizacionOcr
 
     static void ExtraerTextoOcr(DocumentoDigital doc)
     {
+        if (!File.Exists(doc.Ruta)) return;
         // OCR simulado
         doc.TextoExtraido = $"Texto reconocido del archivo {doc.Nombre}";
     }
