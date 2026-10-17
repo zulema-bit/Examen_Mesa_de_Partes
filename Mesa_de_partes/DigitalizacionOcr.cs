@@ -8,6 +8,8 @@ public class DocumentoDigital
     public string TextoExtraido { get; set; } = "";
     public bool Validado { get; set; }
     public string Observacion { get; set; } = "";
+    public int Id { get; set; }
+    public DateTime FechaDigitalizacion { get; set; }
 }
 
 public static class DigitalizacionOcr
@@ -47,7 +49,11 @@ public static class DigitalizacionOcr
         ExtraerTextoOcr(doc);
         Validar(doc);
 
+        doc.Id = Digitalizados.Count + 1;
+        doc.FechaDigitalizacion = DateTime.Now;
         Digitalizados.Add(doc);
+
+        Console.WriteLine($"Código: DOC-{doc.Id:000} | Fecha: {doc.FechaDigitalizacion:dd/MM/yyyy HH:mm}");
         Console.WriteLine($"Documento: {doc.Nombre}");
         Console.WriteLine($"Texto extraído: {doc.TextoExtraido}");
         Console.WriteLine($"Estado: {(doc.Validado ? "VÁLIDO" : "RECHAZADO")} - {doc.Observacion}");
@@ -63,7 +69,7 @@ public static class DigitalizacionOcr
 
         Console.WriteLine("\n--- Documentos digitalizados ---");
         foreach (var d in Digitalizados)
-            Console.WriteLine($"- {d.Nombre} | {d.TamanoKb} KB | {(d.Validado ? "VÁLIDO" : "RECHAZADO")}");
+            Console.WriteLine($"- DOC-{d.Id:000} | {d.Nombre} | {d.TamanoKb} KB | {d.FechaDigitalizacion:dd/MM/yyyy HH:mm} | {(d.Validado ? "VÁLIDO" : "RECHAZADO")}");
     }
 
     static DocumentoDigital Digitalizar(string ruta)
