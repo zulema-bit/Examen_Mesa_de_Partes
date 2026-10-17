@@ -23,6 +23,7 @@ public static class DigitalizacionOcr
         {
             Console.WriteLine("\n=== DIGITALIZACIÓN Y OCR ===");
             Console.WriteLine("1. Digitalizar documento");
+            Console.WriteLine("2. Ver documentos digitalizados");
             Console.WriteLine("0. Volver");
             Console.Write("Elige una opción: ");
             int.TryParse(Console.ReadLine(), out opcion);
@@ -30,6 +31,7 @@ public static class DigitalizacionOcr
             switch (opcion)
             {
                 case 1: DigitalizarDocumento(); break;
+                case 2: ListarDigitalizados(); break;
                 case 0: break;
                 default: Console.WriteLine("Opción inválida."); break;
             }
@@ -49,6 +51,19 @@ public static class DigitalizacionOcr
         Console.WriteLine($"Documento: {doc.Nombre}");
         Console.WriteLine($"Texto extraído: {doc.TextoExtraido}");
         Console.WriteLine($"Estado: {(doc.Validado ? "VÁLIDO" : "RECHAZADO")} - {doc.Observacion}");
+    }
+
+    static void ListarDigitalizados()
+    {
+        if (Digitalizados.Count == 0)
+        {
+            Console.WriteLine("Aún no hay documentos digitalizados.");
+            return;
+        }
+
+        Console.WriteLine("\n--- Documentos digitalizados ---");
+        foreach (var d in Digitalizados)
+            Console.WriteLine($"- {d.Nombre} | {d.TamanoKb} KB | {(d.Validado ? "VÁLIDO" : "RECHAZADO")}");
     }
 
     static DocumentoDigital Digitalizar(string ruta)
