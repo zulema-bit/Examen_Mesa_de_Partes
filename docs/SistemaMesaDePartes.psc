@@ -3,7 +3,7 @@ Algoritmo SistemaMesaDePartes
     Definir entrada, documento, nombre, tipo, asunto, ruta, codigoBuscar, confirma Como Caracter
     Definir codigos, documentos, solicitantes, tipos, asuntos, rutas, fechas, estados, areas Como Caracter
     Definir cantidad, siguiente, seleccion, i, j, k, pos Como Entero
-    Definir valido, salir Como Logico
+    Definir valido, salir, intercambiar Como Logico
     Definir auxiliar Como Caracter
     Dimension codigos[100], documentos[100], solicitantes[100], tipos[100]
     Dimension asuntos[100], rutas[100], fechas[100], estados[100], areas[100]
@@ -169,9 +169,19 @@ Algoritmo SistemaMesaDePartes
                 Si cantidad < 2 Entonces
                     Escribir "No hay suficientes expedientes para ordenar."
                 SiNo
-                    Para i <- 1 Hasta cantidad - 1 Hacer
+                    Escribir "Ordenar por codigo: 1. Ascendente; 2. Descendente"
+                    Leer entrada
+                    Si entrada = "1" O entrada = "2" Entonces
+                      Para i <- 1 Hasta cantidad - 1 Hacer
                         Para j <- 1 Hasta cantidad - i Hacer
-                            Si codigos[j] > codigos[j+1] Entonces
+                            intercambiar <- Falso
+                            Si entrada = "1" Y codigos[j] > codigos[j+1] Entonces
+                                intercambiar <- Verdadero
+                            FinSi
+                            Si entrada = "2" Y codigos[j] < codigos[j+1] Entonces
+                                intercambiar <- Verdadero
+                            FinSi
+                            Si intercambiar Entonces
                                 auxiliar <- codigos[j]
                                 codigos[j] <- codigos[j+1]
                                 codigos[j+1] <- auxiliar
@@ -201,11 +211,14 @@ Algoritmo SistemaMesaDePartes
                                 areas[j+1] <- auxiliar
                             FinSi
                         FinPara
-                    FinPara
-                    Escribir "Expedientes ordenados por codigo."
-                    Para i <- 1 Hasta cantidad Hacer
-                        Escribir codigos[i], " | ", solicitantes[i]
-                    FinPara
+                      FinPara
+                      Escribir "Expedientes ordenados por codigo."
+                      Para i <- 1 Hasta cantidad Hacer
+                          Escribir codigos[i], " | ", solicitantes[i]
+                      FinPara
+                    SiNo
+                      Escribir "Opcion no valida."
+                    FinSi
                 FinSi
             7:
                 Escribir "Confirma que desea salir? (S/N):"

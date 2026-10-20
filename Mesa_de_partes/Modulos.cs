@@ -128,8 +128,19 @@ public static class Modulos
 
     public static void Ordenar(AlmacenExpedientes datos)
     {
-        datos.Expedientes.Sort((a, b) => a.Numero.CompareTo(b.Numero));
-        Mostrar(datos.Expedientes);
+        Console.WriteLine("Ordenar por codigo: 1. Ascendente; 2. Descendente");
+        Console.Write("Seleccione el orden: ");
+        var opcion = Console.ReadLine()?.Trim();
+        if (opcion is not ("1" or "2"))
+        {
+            Console.WriteLine("Opcion no valida.");
+            return;
+        }
+        var ordenados = opcion == "1"
+            ? datos.Expedientes.OrderBy(x => x.Numero)
+            : datos.Expedientes.OrderByDescending(x => x.Numero);
+        Console.WriteLine(opcion == "1" ? "Orden ascendente:" : "Orden descendente:");
+        Mostrar(ordenados);
     }
 
     private static Expediente? PedirExpediente(AlmacenExpedientes datos)

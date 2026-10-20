@@ -22,6 +22,8 @@ opcion 2 permite indicarlo una sola vez. El archivo original permanece en su
 ubicacion; si se mueve o borra, la validacion posterior fallara.
 Al consultar, validar o derivar un expediente se puede escribir el codigo
 completo (`EXP-1001`) o solo su numero (`1001`).
+La opcion 5 lista los expedientes como se registraron. La opcion 6 permite
+mostrarlos por codigo en orden ascendente o descendente, sin modificar los datos.
 
 ## Alcance
 
