@@ -15,6 +15,8 @@ dotnet run --project Mesa_de_partes/Mesa_de_partes.csproj
 
 El archivo `expedientes.json` se crea junto al ejecutable y esta excluido de Git.
 El pseudocodigo correspondiente esta en `docs/SistemaMesaDePartes.psc`.
+Al consultar, validar o derivar un expediente se puede escribir el codigo
+completo (`EXP-1001`) o solo su numero (`1001`).
 
 ## Alcance
 

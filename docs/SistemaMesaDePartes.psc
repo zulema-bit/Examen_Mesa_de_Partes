@@ -86,7 +86,7 @@ Algoritmo SistemaMesaDePartes
                 Leer codigoBuscar
                 pos <- -1
                 Para i <- 1 Hasta cantidad Hacer
-                    Si codigos[i] = codigoBuscar Entonces
+                    Si codigos[i] = codigoBuscar O codigos[i] = "EXP-" + codigoBuscar Entonces
                         pos <- i
                     FinSi
                 FinPara
@@ -107,7 +107,7 @@ Algoritmo SistemaMesaDePartes
                 Leer codigoBuscar
                 pos <- -1
                 Para i <- 1 Hasta cantidad Hacer
-                    Si codigos[i] = codigoBuscar Entonces
+                    Si codigos[i] = codigoBuscar O codigos[i] = "EXP-" + codigoBuscar Entonces
                         pos <- i
                     FinSi
                 FinPara
@@ -134,7 +134,7 @@ Algoritmo SistemaMesaDePartes
                 Leer codigoBuscar
                 pos <- -1
                 Para i <- 1 Hasta cantidad Hacer
-                    Si codigos[i] = codigoBuscar Entonces
+                    Si codigos[i] = codigoBuscar O codigos[i] = "EXP-" + codigoBuscar Entonces
                         pos <- i
                     FinSi
                 FinPara

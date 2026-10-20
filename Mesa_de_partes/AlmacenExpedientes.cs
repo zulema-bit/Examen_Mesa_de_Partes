@@ -18,8 +18,14 @@ public sealed class AlmacenExpedientes
         }
     }
 
-    public Expediente? Buscar(string codigo) => Expedientes.Find(x =>
-        string.Equals(x.Codigo, codigo.Trim(), StringComparison.OrdinalIgnoreCase));
+    public Expediente? Buscar(string codigo)
+    {
+        var entrada = codigo.Trim();
+        if (int.TryParse(entrada, out var numero))
+            return Expedientes.Find(x => x.Numero == numero);
+        return Expedientes.Find(x =>
+            string.Equals(x.Codigo, entrada, StringComparison.OrdinalIgnoreCase));
+    }
 
     public int SiguienteNumero() => Expedientes.Select(x => x.Numero).DefaultIfEmpty(1000).Max() + 1;
 

@@ -128,7 +128,7 @@ public static class Modulos
 
     private static Expediente? PedirExpediente(AlmacenExpedientes datos)
     {
-        Console.Write("Codigo del expediente: ");
+        Console.Write("Codigo del expediente (por ejemplo, EXP-1001 o 1001): ");
         var exp = datos.Buscar(Console.ReadLine() ?? "");
         if (exp is null) Console.WriteLine("Expediente no encontrado.");
         return exp;
