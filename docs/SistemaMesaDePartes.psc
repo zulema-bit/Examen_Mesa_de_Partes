@@ -1,12 +1,12 @@
 Algoritmo SistemaMesaDePartes
     // Prototipo de simulacion en PSeInt. El guardado en archivo se implementa en C#.
-    Definir entrada, documento, nombre, tipo, asunto, codigoBuscar, confirma Como Caracter
-    Definir codigos, documentos, solicitantes, tipos, asuntos, fechas, estados, areas Como Caracter
+    Definir entrada, documento, nombre, tipo, asunto, ruta, codigoBuscar, confirma Como Caracter
+    Definir codigos, documentos, solicitantes, tipos, asuntos, rutas, fechas, estados, areas Como Caracter
     Definir cantidad, siguiente, seleccion, i, j, k, pos Como Entero
     Definir valido, salir Como Logico
     Definir auxiliar Como Caracter
     Dimension codigos[100], documentos[100], solicitantes[100], tipos[100]
-    Dimension asuntos[100], fechas[100], estados[100], areas[100]
+    Dimension asuntos[100], rutas[100], fechas[100], estados[100], areas[100]
     cantidad <- 0
     siguiente <- 1001
     salir <- Falso
@@ -61,6 +61,10 @@ Algoritmo SistemaMesaDePartes
                         Escribir "Asunto:"
                         Leer asunto
                     Hasta Que Longitud(asunto) > 0
+                    Repetir
+                        Escribir "Ruta del archivo PDF o imagen (simulacion):"
+                        Leer ruta
+                    Hasta Que Longitud(ruta) > 0
                     Escribir "Confirma el registro? (S/N):"
                     Leer confirma
                     Si Mayusculas(confirma) = "S" Entonces
@@ -70,6 +74,7 @@ Algoritmo SistemaMesaDePartes
                         solicitantes[pos] <- nombre
                         tipos[pos] <- tipo
                         asuntos[pos] <- asunto
+                        rutas[pos] <- ruta
                         Escribir "Fecha de registro (DD/MM/AAAA):"
                         Leer fechas[pos]
                         estados[pos] <- "Registrado"
@@ -93,6 +98,7 @@ Algoritmo SistemaMesaDePartes
                 Si pos = -1 Entonces
                     Escribir "Expediente no encontrado."
                 SiNo
+                    Escribir "Archivo asociado: ", rutas[pos]
                     Escribir "Simulacion: confirme que el documento fisico fue digitalizado y validado (S/N):"
                     Leer confirma
                     Si Mayusculas(confirma) = "S" Entonces
@@ -149,6 +155,7 @@ Algoritmo SistemaMesaDePartes
                     Escribir "Fecha: ", fechas[pos]
                     Escribir "Estado: ", estados[pos]
                     Escribir "Area: ", areas[pos]
+                    Escribir "Archivo asociado: ", rutas[pos]
                 FinSi
             5:
                 Si cantidad = 0 Entonces
@@ -180,6 +187,9 @@ Algoritmo SistemaMesaDePartes
                                 auxiliar <- asuntos[j]
                                 asuntos[j] <- asuntos[j+1]
                                 asuntos[j+1] <- auxiliar
+                                auxiliar <- rutas[j]
+                                rutas[j] <- rutas[j+1]
+                                rutas[j+1] <- auxiliar
                                 auxiliar <- fechas[j]
                                 fechas[j] <- fechas[j+1]
                                 fechas[j+1] <- auxiliar

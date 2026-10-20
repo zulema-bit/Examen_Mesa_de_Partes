@@ -9,6 +9,9 @@ public static class Modulos
         var nombre = Pedir("Nombre o razon social: ", x => !string.IsNullOrWhiteSpace(x));
         var tipo = Pedir("Tipo de documento: ", x => !string.IsNullOrWhiteSpace(x));
         var asunto = Pedir("Asunto: ", x => !string.IsNullOrWhiteSpace(x));
+        Console.Write("Ruta del archivo PDF o imagen: ");
+        var ruta = Console.ReadLine()?.Trim().Trim('"') ?? "";
+        if (!ValidarArchivo(ruta)) return;
         var confirmacion = Pedir("Confirma el registro? (S/N): ", x =>
             x.Equals("S", StringComparison.OrdinalIgnoreCase) ||
             x.Equals("N", StringComparison.OrdinalIgnoreCase));
@@ -22,7 +25,9 @@ public static class Modulos
         {
             Numero = numero, Codigo = $"EXP-{numero:D4}", DniRuc = dni,
             Solicitante = nombre, TipoDocumento = tipo, Asunto = asunto,
-            FechaRegistro = DateTime.Now, Estado = "Registrado"
+            FechaRegistro = DateTime.Now, Estado = "Registrado",
+            RutaArchivo = Path.GetFullPath(ruta),
+            ObservacionArchivo = "Archivo comprobado al registrar; OCR no implementado"
         };
         nuevo.Historial.Add($"{nuevo.FechaRegistro:dd/MM/yyyy HH:mm}: Registrado");
         datos.Expedientes.Add(nuevo);
@@ -39,14 +44,15 @@ public static class Modulos
     {
         var exp = PedirExpediente(datos);
         if (exp is null) return;
-        Console.Write("Ruta del archivo PDF o imagen: ");
-        var ruta = Console.ReadLine()?.Trim().Trim('"') ?? "";
-        if (!File.Exists(ruta)) { Console.WriteLine("El archivo no existe."); return; }
-        var extension = Path.GetExtension(ruta).ToLowerInvariant();
-        if (extension is not (".pdf" or ".jpg" or ".jpeg" or ".png"))
-        { Console.WriteLine("Formato no permitido."); return; }
-        var tamano = new FileInfo(ruta).Length;
-        if (tamano > 5 * 1024 * 1024) { Console.WriteLine("El archivo supera 5 MB."); return; }
+        var ruta = exp.RutaArchivo;
+        if (string.IsNullOrWhiteSpace(ruta))
+        {
+            Console.WriteLine("Este expediente antiguo no tiene archivo asociado.");
+            Console.Write("Ruta del archivo PDF o imagen: ");
+            ruta = Console.ReadLine()?.Trim().Trim('"') ?? "";
+        }
+        else Console.WriteLine($"Archivo registrado: {ruta}");
+        if (!ValidarArchivo(ruta)) return;
         var anteriorRuta = exp.RutaArchivo;
         var anteriorObs = exp.ObservacionArchivo;
         var anteriorEstado = exp.Estado;
@@ -132,6 +138,25 @@ public static class Modulos
         var exp = datos.Buscar(Console.ReadLine() ?? "");
         if (exp is null) Console.WriteLine("Expediente no encontrado.");
         return exp;
+    }
+
+    private static bool ValidarArchivo(string ruta)
+    {
+        try
+        {
+            if (!File.Exists(ruta)) { Console.WriteLine("El archivo no existe."); return false; }
+            var extension = Path.GetExtension(ruta).ToLowerInvariant();
+            if (extension is not (".pdf" or ".jpg" or ".jpeg" or ".png"))
+            { Console.WriteLine("Formato no permitido."); return false; }
+            if (new FileInfo(ruta).Length > 5 * 1024 * 1024)
+            { Console.WriteLine("El archivo supera 5 MB."); return false; }
+            return true;
+        }
+        catch (Exception ex) when (ex is ArgumentException or IOException or UnauthorizedAccessException or NotSupportedException)
+        {
+            Console.WriteLine($"No se pudo comprobar el archivo: {ex.Message}");
+            return false;
+        }
     }
 
     private static string Pedir(string mensaje, Func<string, bool> valido)
