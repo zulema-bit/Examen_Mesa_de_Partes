@@ -49,6 +49,12 @@ public static class DigitalizacionOcr
         ExtraerTextoOcr(doc);
         Validar(doc);
 
+        if (Digitalizados.Any(d => d.Nombre == doc.Nombre && d.TamanoKb == doc.TamanoKb))
+        {
+            Console.WriteLine("Este documento ya fue digitalizado. No se registrará de nuevo.");
+            return;
+        }
+
         doc.Id = Digitalizados.Count + 1;
         doc.FechaDigitalizacion = DateTime.Now;
         Digitalizados.Add(doc);
