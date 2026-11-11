@@ -26,6 +26,7 @@ public static class DigitalizacionOcr
             Console.WriteLine("\n=== DIGITALIZACIÓN Y OCR ===");
             Console.WriteLine("1. Digitalizar documento");
             Console.WriteLine("2. Ver documentos digitalizados");
+            Console.WriteLine("3. Ver resumen");
             Console.WriteLine("0. Volver");
             Console.Write("Elige una opción: ");
             int.TryParse(Console.ReadLine(), out opcion);
@@ -34,6 +35,7 @@ public static class DigitalizacionOcr
             {
                 case 1: DigitalizarDocumento(); break;
                 case 2: ListarDigitalizados(); break;
+                case 3: MostrarResumen(); break;
                 case 0: break;
                 default: Console.WriteLine("Opción inválida."); break;
             }
@@ -76,6 +78,17 @@ public static class DigitalizacionOcr
         Console.WriteLine("\n--- Documentos digitalizados ---");
         foreach (var d in Digitalizados)
             Console.WriteLine($"- DOC-{d.Id:000} | {d.Nombre} | {d.TamanoKb} KB | {d.FechaDigitalizacion:dd/MM/yyyy HH:mm} | {(d.Validado ? "VÁLIDO" : "RECHAZADO")}");
+    }
+
+    static void MostrarResumen()
+    {
+        int validos = Digitalizados.Count(d => d.Validado);
+        int rechazados = Digitalizados.Count - validos;
+
+        Console.WriteLine("\n--- Resumen ---");
+        Console.WriteLine($"Total digitalizados: {Digitalizados.Count}");
+        Console.WriteLine($"Válidos: {validos}");
+        Console.WriteLine($"Rechazados: {rechazados}");
     }
 
     static DocumentoDigital Digitalizar(string ruta)
