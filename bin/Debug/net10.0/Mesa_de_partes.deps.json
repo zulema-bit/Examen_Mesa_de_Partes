@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v10.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v10.0": {
+      "Mesa_de_partes/1.0.0": {
+        "runtime": {
+          "Mesa_de_partes.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Mesa_de_partes/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "/UMnQSqGBO0=",
+  "success": true,
+  "projectFilePath": "C:\\Mesa_de_partes\\Mesa_de_partes.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\DELL\\.nuget\\packages\\microsoft.netcore.app.ref\\10.0.13\\microsoft.netcore.app.ref.10.0.13.nupkg.sha512",
+    "C:\\Users\\DELL\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\10.0.13\\microsoft.windowsdesktop.app.ref.10.0.13.nupkg.sha512",
+    "C:\\Users\\DELL\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\10.0.13\\microsoft.aspnetcore.app.ref.10.0.13.nupkg.sha512",
+    "C:\\Users\\DELL\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\10.0.13\\microsoft.netcore.app.host.win-x64.10.0.13.nupkg.sha512"
+  ],
+  "logs": []
+}
