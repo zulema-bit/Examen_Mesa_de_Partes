@@ -24,19 +24,6 @@ public static class ConsultaExpedientes
             return;
         }
 
-        Console.WriteLine("\nSeleccione el tipo de consulta:");
-        Console.WriteLine("1. Estado actual del expediente");
-        Console.WriteLine("2. Area donde se encuentra");
-        Console.WriteLine("3. Historial de movimientos (seguimiento)");
-        Console.Write("Ingrese una opcion (1-3): ");
-
-        if (!int.TryParse(Console.ReadLine(), out int opcion) ||
-            opcion < 1 || opcion > 3)
-        {
-            Console.WriteLine("Error: ingrese una opcion valida del 1 al 3.");
-            return;
-        }
-
         if (RepositorioExpedientes.Cantidad() == 0)
         {
             Console.WriteLine("No hay expedientes registrados todavia.");
@@ -57,23 +44,49 @@ public static class ConsultaExpedientes
             return;
         }
 
-        Console.WriteLine($"\nExpediente: {exp.Numero} | Solicitante: {exp.Solicitante}");
+        int opcion = 0;
 
-        switch (opcion)
+        while (opcion != 4)
         {
-            case 1:
-                Console.WriteLine($"Estado actual: {exp.Estado}");
+            Console.WriteLine("\nSeleccione el tipo de consulta:");
+            Console.WriteLine("1. Estado actual del expediente");
+            Console.WriteLine("2. Area donde se encuentra");
+            Console.WriteLine("3. Historial de movimientos (seguimiento)");
+            Console.WriteLine("4. Salir");
+            Console.Write("Ingrese una opcion (1-4): ");
+
+            if (!int.TryParse(Console.ReadLine(), out opcion) ||
+                opcion < 1 || opcion > 4)
+            {
+                Console.WriteLine("Error: ingrese una opcion valida del 1 al 4.");
+                opcion = 0;
+                continue;
+            }
+
+            if (opcion == 4)
+            {
+                Console.WriteLine("Saliendo de la consulta de expedientes...");
                 break;
-            case 2:
-                Console.WriteLine($"Area actual: {exp.AreaActual}");
-                break;
-            case 3:
-                Console.WriteLine("Historial de movimientos:");
-                foreach (var mov in exp.Historial.OrderBy(m => m.Fecha))
-                {
-                    Console.WriteLine($"  {mov.Fecha:dd/MM/yyyy HH:mm} | {mov.Area} | {mov.Descripcion}");
-                }
-                break;
+            }
+
+            Console.WriteLine($"\nExpediente: {exp.Numero} | Solicitante: {exp.Solicitante}");
+
+            switch (opcion)
+            {
+                case 1:
+                    Console.WriteLine($"Estado actual: {exp.Estado}");
+                    break;
+                case 2:
+                    Console.WriteLine($"Area actual: {exp.AreaActual}");
+                    break;
+                case 3:
+                    Console.WriteLine("Historial de movimientos:");
+                    foreach (var mov in exp.Historial.OrderBy(m => m.Fecha))
+                    {
+                        Console.WriteLine($"  {mov.Fecha:dd/MM/yyyy HH:mm} | {mov.Area} | {mov.Descripcion}");
+                    }
+                    break;
+            }
         }
     }
 }
