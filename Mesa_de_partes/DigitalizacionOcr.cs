@@ -45,13 +45,30 @@ public static class DigitalizacionOcr
     static void DigitalizarDocumento()
     {
         Console.Write("Ruta del documento a digitalizar: ");
-        string ruta = Console.ReadLine() ?? "";
+        string ruta = (Console.ReadLine() ?? "").Trim().Trim('"');
 
-        var doc = Digitalizar(ruta);
+        if (string.IsNullOrWhiteSpace(ruta))
+        {
+            Console.WriteLine("Debe ingresar una ruta.");
+            return;
+        }
+
+        DocumentoDigital doc;
+        try
+        {
+            doc = Digitalizar(ruta);
+        }
+        catch (Exception ex) when (ex is ArgumentException or NotSupportedException or IOException)
+        {
+            Console.WriteLine($"Ruta no válida: {ex.Message}");
+            return;
+        }
+
         ExtraerTextoOcr(doc);
         Validar(doc);
 
-        if (Digitalizados.Any(d => d.Nombre == doc.Nombre && d.TamanoKb == doc.TamanoKb))
+        if (doc.Validado && Digitalizados.Any(d => d.Validado &&
+            string.Equals(d.Ruta, doc.Ruta, StringComparison.OrdinalIgnoreCase)))
         {
             Console.WriteLine("Este documento ya fue digitalizado. No se registrará de nuevo.");
             return;
@@ -63,7 +80,7 @@ public static class DigitalizacionOcr
 
         Console.WriteLine($"Código: DOC-{doc.Id:000} | Fecha: {doc.FechaDigitalizacion:dd/MM/yyyy HH:mm}");
         Console.WriteLine($"Documento: {doc.Nombre}");
-        Console.WriteLine($"Texto extraído: {doc.TextoExtraido}");
+        Console.WriteLine($"Texto extraído (OCR simulado): {doc.TextoExtraido}");
         Console.WriteLine($"Estado: {(doc.Validado ? "VÁLIDO" : "RECHAZADO")} - {doc.Observacion}");
     }
 
@@ -96,7 +113,7 @@ public static class DigitalizacionOcr
         var info = new FileInfo(ruta);
         return new DocumentoDigital
         {
-            Ruta = ruta,
+            Ruta = info.FullName,
             Nombre = info.Name,
             TamanoKb = info.Exists ? info.Length / 1024 : 0
         };
@@ -105,8 +122,8 @@ public static class DigitalizacionOcr
     static void ExtraerTextoOcr(DocumentoDigital doc)
     {
         if (!File.Exists(doc.Ruta)) return;
-        // OCR simulado
-        doc.TextoExtraido = $"Texto reconocido del archivo {doc.Nombre}";
+        // OCR simulado: no se lee el contenido real del archivo
+        doc.TextoExtraido = $"[simulado] texto de ejemplo del archivo {doc.Nombre}";
     }
 
     static void Validar(DocumentoDigital doc)
