@@ -19,15 +19,16 @@ namespace Mesa_de_partes
 
                 if (continuar)
                 {
-                    Console.WriteLine();
-                    Console.WriteLine("Presione una tecla para continuar...");
-                    Console.ReadKey();
-                    Console.WriteLine();
+                   Console.WriteLine();
+                   Console.WriteLine("Presione cualquier tecla para continuar...");
+                   Console.ReadKey();
+                   
                 }
 
             } while (continuar);
         }
         static void MostrarMenu()
+       
         {
             Console.WriteLine("======================================");
             Console.WriteLine("       SISTEMA DE MESA DE PARTES");
