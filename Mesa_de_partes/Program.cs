@@ -10,6 +10,7 @@ class Program
         string tramite = "";
         string categoria = "";
         string area = "";
+        string estado = "Pendiente de derivacion";
         int opcionAsunto;
         int opcionTramite = 0;
         bool tramiteManual = false;
@@ -129,7 +130,6 @@ class Program
                 opcionTramite = 9;
                 break;
 
-
             case 10:
                 Console.Write("Escriba el asunto que necesita: ");
                 asunto = Console.ReadLine() ?? "";
@@ -161,19 +161,28 @@ class Program
             }
 
             categoria = "Pendiente de clasificacion";
-            area = "Mesa de Partes para evaluacion";
+            area = "Mesa de Partes";
+            estado = "Pendiente de evaluacion y derivacion";
             opcionTramite = 10;
         }
 
-        // 5. Mostrar resultado
+        // 5. Mostrar resultado final
         Console.WriteLine("\n=== RESULTADO DEL TRAMITE ===");
         Console.WriteLine("Expediente: " + expediente);
         Console.WriteLine("Asunto: " + asunto);
         Console.WriteLine("Tipo de tramite: " + tramite);
         Console.WriteLine("Categoria: " + categoria);
         Console.WriteLine("Area de destino: " + area);
-        Console.WriteLine("Estado: Pendiente de derivacion");
+        Console.WriteLine("Estado: " + estado);
+
+        if (tramiteManual)
+        {
+            Console.WriteLine("\nNo se pudo clasificar el asunto automaticamente.");
+            Console.WriteLine("Mesa de Partes debe evaluarlo antes de derivarlo.");
+        }
+        else
+        {
+            Console.WriteLine("\nEl tramite debe derivarse a: " + area);
+        }
     }
 }
-
-
