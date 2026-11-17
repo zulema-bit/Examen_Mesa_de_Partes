@@ -48,45 +48,156 @@ public static class Modulos
          Console.WriteLine($"Registrado: {nuevo.Codigo} | {nuevo.FechaRegistro:dd/MM/yyyy HH:mm} | Estado: {nuevo.Estado}");
     }
    
-    public static void Digitalizar(AlmacenExpedientes datos)
+    
+         public static void Digitalizar(AlmacenExpedientes datos)
+       {
+          string opcion;
+
+        do
     {
-        var exp = PedirExpediente(datos);
-        if (exp is null) return;
-        var ruta = exp.RutaArchivo;
-        if (string.IsNullOrWhiteSpace(ruta))
+        Console.WriteLine("\n=== DIGITALIZACION Y OCR ===");
+        Console.WriteLine("1. Digitalizar documento");
+        Console.WriteLine("2. Ver documentos digitalizados");
+        Console.WriteLine("3. Ver resumen");
+        Console.WriteLine("0. Volver al menu principal");
+        Console.Write("Elige una opcion: ");
+
+        opcion = Console.ReadLine()?.Trim() ?? "";
+
+        switch (opcion)
         {
-            Console.WriteLine("Este expediente antiguo no tiene archivo asociado.");
-            Console.Write("Ruta del archivo PDF o imagen: ");
-            ruta = Console.ReadLine()?.Trim().Trim('"') ?? "";
+            case "1":
+                var exp = PedirExpediente(datos);
+                if (exp is null) break;
+
+                if (exp.FechaDigitalizacion != null)
+                {
+                    Console.WriteLine("Este expediente ya fue digitalizado.");
+                    break;
+                }
+
+                var ruta = exp.RutaArchivo;
+
+                if (string.IsNullOrWhiteSpace(ruta))
+                {
+                    Console.Write("Ruta del documento PDF o imagen: ");
+                    ruta = Console.ReadLine()?.Trim().Trim('"') ?? "";
+                }
+                else
+                {
+                    Console.WriteLine($"Archivo registrado: {ruta}");
+                }
+
+                if (!ValidarArchivo(ruta)) break;
+
+                var rutaCompleta = Path.GetFullPath(ruta);
+
+                bool duplicado = datos.Expedientes.Any(x =>
+                    x.Numero != exp.Numero &&
+                    x.FechaDigitalizacion != null &&
+                    string.Equals(
+                        x.RutaArchivo,
+                        rutaCompleta,
+                        StringComparison.OrdinalIgnoreCase));
+
+                if (duplicado)
+                {
+                    Console.WriteLine("Este archivo ya fue digitalizado en otro expediente.");
+                    break;
+                }
+
+                var anteriorRuta = exp.RutaArchivo;
+                var anteriorObservacion = exp.ObservacionArchivo;
+                var anteriorEstado = exp.Estado;
+                var anteriorTexto = exp.TextoExtraido;
+                var anteriorFecha = exp.FechaDigitalizacion;
+                var anteriorValidado = exp.Validado;
+
+                exp.RutaArchivo = rutaCompleta;
+                exp.TextoExtraido =
+                    $"[OCR SIMULADO] Texto de ejemplo del archivo {Path.GetFileName(rutaCompleta)}";
+                exp.FechaDigitalizacion = DateTime.Now;
+                exp.Validado = true;
+                exp.ObservacionArchivo = "Documento conforme. OCR simulado.";
+                exp.Estado = "En revision";
+
+                exp.Historial.Add(new Movimiento
+                {
+                    Fecha = DateTime.Now,
+                    Area = exp.Area,
+                    Descripcion = "Documento digitalizado y validado (OCR simulado)"
+                });
+
+                if (!datos.Guardar())
+                {
+                    exp.RutaArchivo = anteriorRuta;
+                    exp.ObservacionArchivo = anteriorObservacion;
+                    exp.Estado = anteriorEstado;
+                    exp.TextoExtraido = anteriorTexto;
+                    exp.FechaDigitalizacion = anteriorFecha;
+                    exp.Validado = anteriorValidado;
+                    exp.Historial.RemoveAt(exp.Historial.Count - 1);
+
+                    Console.WriteLine("No se pudieron guardar los cambios.");
+                    break;
+                }
+
+                Console.WriteLine($"\nDocumento digitalizado correctamente.");
+                Console.WriteLine($"Expediente: {exp.Codigo}");
+                Console.WriteLine($"Documento: {Path.GetFileName(rutaCompleta)}");
+                Console.WriteLine($"Texto extraido: {exp.TextoExtraido}");
+                Console.WriteLine("Estado: VALIDO");
+                break;
+
+            case "2":
+                var digitalizados = datos.Expedientes
+                    .Where(x => x.FechaDigitalizacion != null)
+                    .ToList();
+
+                if (digitalizados.Count == 0)
+                {
+                    Console.WriteLine("Aun no hay documentos digitalizados.");
+                    break;
+                }
+
+                Console.WriteLine("\n--- DOCUMENTOS DIGITALIZADOS ---");
+
+                foreach (var documento in digitalizados)
+                {
+                    Console.WriteLine(
+                        $"{documento.Codigo} | {documento.Solicitante} | " +
+                        $"{documento.FechaDigitalizacion:dd/MM/yyyy HH:mm} | " +
+                        $"{(documento.Validado ? "VALIDO" : "RECHAZADO")}");
+                }
+                break;
+
+            case "3":
+                int total = datos.Expedientes.Count(
+                    x => x.FechaDigitalizacion != null);
+
+                int validos = datos.Expedientes.Count(
+                    x => x.FechaDigitalizacion != null && x.Validado);
+
+                int rechazados = total - validos;
+
+                Console.WriteLine("\n--- RESUMEN DE DIGITALIZACION ---");
+                Console.WriteLine($"Total digitalizados: {total}");
+                Console.WriteLine($"Validos: {validos}");
+                Console.WriteLine($"Rechazados: {rechazados}");
+                break;
+
+            case "0":
+                Console.WriteLine("Volviendo al menu principal...");
+                break;
+
+            default:
+                Console.WriteLine("Opcion no valida.");
+                break;
         }
-        else Console.WriteLine($"Archivo registrado: {ruta}");
-        if (!ValidarArchivo(ruta)) return;
-        var anteriorRuta = exp.RutaArchivo;
-        var anteriorObs = exp.ObservacionArchivo;
-        var anteriorEstado = exp.Estado;
-        exp.RutaArchivo = Path.GetFullPath(ruta);
-        exp.ObservacionArchivo = "Archivo comprobado; OCR no implementado";
-        exp.Estado = "En revision";
-       exp.Historial.Add(new Movimiento
-     {
-          Fecha = DateTime.Now,
-          Area = exp.Area,
-          Descripcion = "Archivo validado (sin OCR)"
-      });
 
-      if (!datos.Guardar())
-   {
-        exp.RutaArchivo = anteriorRuta;
-        exp.ObservacionArchivo = anteriorObs;
-        exp.Estado = anteriorEstado;
-        exp.Historial.RemoveAt(exp.Historial.Count - 1);
+    } while (opcion != "0");
+}
 
-         Console.WriteLine("Cambio cancelado: no se pudo guardar.");
-       return;
-    }
-
-       Console.WriteLine("Archivo validado por existencia, formato y tamaño. OCR no implementado.");
-    }
 
     public static void Clasificar(AlmacenExpedientes datos)
     {

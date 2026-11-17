@@ -21,5 +21,8 @@ public class Expediente
     public string Area { get; set; } = "Sin derivar";
     public string? RutaArchivo { get; set; }
     public string? ObservacionArchivo { get; set; }
+    public string TextoExtraido { get; set; } = "";
+    public DateTime? FechaDigitalizacion { get; set; }
+    public bool Validado { get; set; }
     public List<Movimiento> Historial { get; set; } = new();
 }
