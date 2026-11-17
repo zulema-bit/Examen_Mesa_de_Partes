@@ -29,17 +29,25 @@ public static class Modulos
             RutaArchivo = Path.GetFullPath(ruta),
             ObservacionArchivo = "Archivo comprobado al registrar; OCR no implementado"
         };
-        nuevo.Historial.Add($"{nuevo.FechaRegistro:dd/MM/yyyy HH:mm}: Registrado");
-        datos.Expedientes.Add(nuevo);
-        if (!datos.Guardar())
-        {
-            datos.Expedientes.Remove(nuevo);
-            Console.WriteLine("Registro cancelado: no se pudo guardar.");
-            return;
-        }
-        Console.WriteLine($"Registrado: {nuevo.Codigo} | {nuevo.FechaRegistro:dd/MM/yyyy HH:mm} | Estado: {nuevo.Estado}");
-    }
+        nuevo.Historial.Add(new Movimiento
+       {
+        Fecha = nuevo.FechaRegistro,
+        Area = "Mesa de Partes",
+        Descripcion = "Expediente registrado"
+       });
 
+       datos.Expedientes.Add(nuevo);
+
+        if (!datos.Guardar())
+       {
+         datos.Expedientes.Remove(nuevo);
+         Console.WriteLine("Registro cancelado: no se pudo guardar.");
+         return;
+       }
+
+         Console.WriteLine($"Registrado: {nuevo.Codigo} | {nuevo.FechaRegistro:dd/MM/yyyy HH:mm} | Estado: {nuevo.Estado}");
+    }
+   
     public static void Digitalizar(AlmacenExpedientes datos)
     {
         var exp = PedirExpediente(datos);
@@ -59,15 +67,25 @@ public static class Modulos
         exp.RutaArchivo = Path.GetFullPath(ruta);
         exp.ObservacionArchivo = "Archivo comprobado; OCR no implementado";
         exp.Estado = "En revision";
-        exp.Historial.Add($"{DateTime.Now:dd/MM/yyyy HH:mm}: Archivo validado (sin OCR)");
-        if (!datos.Guardar())
-        {
-            exp.RutaArchivo = anteriorRuta; exp.ObservacionArchivo = anteriorObs;
-            exp.Estado = anteriorEstado; exp.Historial.RemoveAt(exp.Historial.Count - 1);
-            Console.WriteLine("Cambio cancelado: no se pudo guardar.");
-            return;
-        }
-        Console.WriteLine("Archivo validado por existencia, formato y tamaño. OCR no implementado.");
+       exp.Historial.Add(new Movimiento
+     {
+          Fecha = DateTime.Now,
+          Area = exp.Area,
+          Descripcion = "Archivo validado (sin OCR)"
+      });
+
+      if (!datos.Guardar())
+   {
+        exp.RutaArchivo = anteriorRuta;
+        exp.ObservacionArchivo = anteriorObs;
+        exp.Estado = anteriorEstado;
+        exp.Historial.RemoveAt(exp.Historial.Count - 1);
+
+         Console.WriteLine("Cambio cancelado: no se pudo guardar.");
+       return;
+    }
+
+       Console.WriteLine("Archivo validado por existencia, formato y tamaño. OCR no implementado.");
     }
 
     public static void Clasificar(AlmacenExpedientes datos)
@@ -88,15 +106,24 @@ public static class Modulos
         var anteriorEstado = exp.Estado;
         exp.Area = area;
         exp.Estado = "En proceso";
-        exp.Historial.Add($"{DateTime.Now:dd/MM/yyyy HH:mm}: Derivado a {area}");
-        if (!datos.Guardar())
-        {
-            exp.Area = anteriorArea; exp.Estado = anteriorEstado;
-            exp.Historial.RemoveAt(exp.Historial.Count - 1);
-            Console.WriteLine("Cambio cancelado: no se pudo guardar.");
-            return;
-        }
-        Console.WriteLine($"Expediente derivado a {area}.");
+        exp.Historial.Add(new Movimiento
+      {
+        Fecha = DateTime.Now,
+        Area = area,
+        Descripcion = $"Expediente derivado a {area}"
+      });
+
+      if (!datos.Guardar())
+       {
+         exp.Area = anteriorArea;
+         exp.Estado = anteriorEstado;
+         exp.Historial.RemoveAt(exp.Historial.Count - 1);
+
+         Console.WriteLine("Cambio cancelado: no se pudo guardar.");
+         return;
+       }
+
+         Console.WriteLine($"Expediente derivado a {area}.");
     }
 
     public static void Consultar(AlmacenExpedientes datos)
@@ -112,7 +139,12 @@ public static class Modulos
         {
             case "1": Console.WriteLine($"{exp.Codigo}: {exp.Estado}"); break;
             case "2": Console.WriteLine($"{exp.Codigo}: {exp.Area}"); break;
-            case "3": foreach (var evento in exp.Historial) Console.WriteLine(evento); break;
+            case "3":
+                foreach (var evento in exp.Historial)
+            {
+               Console.WriteLine($"{evento.Fecha:dd/MM/yyyy HH:mm} | {evento.Area} | {evento.Descripcion}");
+            }
+             break;
             case "4": Mostrar([exp]); break;
             default: Console.WriteLine("Opcion no valida."); break;
         }

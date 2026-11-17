@@ -1,4 +1,12 @@
+
 namespace Mesa_de_partes;
+
+public class Movimiento
+{
+    public DateTime Fecha { get; set; }
+    public string Area { get; set; } = "";
+    public string Descripcion { get; set; } = "";
+}
 
 public class Expediente
 {
@@ -13,5 +21,5 @@ public class Expediente
     public string Area { get; set; } = "Sin derivar";
     public string? RutaArchivo { get; set; }
     public string? ObservacionArchivo { get; set; }
-    public List<string> Historial { get; set; } = [];
+    public List<Movimiento> Historial { get; set; } = new();
 }
