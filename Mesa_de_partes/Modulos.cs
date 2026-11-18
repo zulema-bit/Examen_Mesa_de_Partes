@@ -199,43 +199,180 @@ public static class Modulos
 }
 
 
-    public static void Clasificar(AlmacenExpedientes datos)
+    
+      public static void Clasificar(AlmacenExpedientes datos)
+   {
+      var exp = PedirExpediente(datos);
+      if (exp is null) return;
+
+    Console.WriteLine("\n=== SELECCIONE EL ASUNTO ===");
+    Console.WriteLine("1. Reparacion de pistas y veredas");
+    Console.WriteLine("2. Licencia de edificacion");
+    Console.WriteLine("3. Habilitacion urbana");
+    Console.WriteLine("4. Zonificacion o catastro");
+    Console.WriteLine("5. Impuesto predial");
+    Console.WriteLine("6. Limpieza publica");
+    Console.WriteLine("7. Mantenimiento de parques y jardines");
+    Console.WriteLine("8. Licencia de funcionamiento de negocio");
+    Console.WriteLine("9. Senalizacion vial");
+    Console.WriteLine("10. Escribir asunto manualmente");
+
+    Console.Write("Seleccione una opcion (1-10): ");
+
+    if (!int.TryParse(Console.ReadLine(), out int opcion) ||
+        opcion < 1 || opcion > 10)
     {
-        var exp = PedirExpediente(datos);
-        if (exp is null) return;
-        Console.WriteLine("1. Obras; 2. Desarrollo Urbano; 3. Otra area");
-        Console.Write("Seleccione el tramite: ");
-        var area = Console.ReadLine()?.Trim() switch
-        {
-            "1" => "Subgerencia de Obras",
-            "2" => "Desarrollo Urbano",
-            "3" => "Area correspondiente",
-            _ => null
-        };
-        if (area is null) { Console.WriteLine("Opcion no valida."); return; }
-        var anteriorArea = exp.Area;
-        var anteriorEstado = exp.Estado;
-        exp.Area = area;
-        exp.Estado = "En proceso";
-        exp.Historial.Add(new Movimiento
-      {
+        Console.WriteLine("Error: seleccione una opcion del 1 al 10.");
+        return;
+    }
+
+    string asunto = "";
+    string tramite = "";
+    string categoria = "";
+    string area = "";
+    string estado = "En proceso";
+
+    switch (opcion)
+    {
+        case 1:
+            asunto = "Reparacion de pistas y veredas";
+            tramite = "Obras y pistas";
+            categoria = "Obras publicas";
+            area = "Gerencia de Desarrollo Urbano";
+            break;
+
+        case 2:
+            asunto = "Licencia de edificacion";
+            tramite = "Licencias de edificacion";
+            categoria = "Licencias y edificaciones";
+            area = "Subgerencia de Obras Privadas";
+            break;
+
+        case 3:
+            asunto = "Habilitacion urbana";
+            tramite = "Habilitacion urbana";
+            categoria = "Habilitacion urbana";
+            area = "Subgerencia de Planeamiento Urbano";
+            break;
+
+        case 4:
+            asunto = "Zonificacion o catastro";
+            tramite = "Zonificacion y catastro";
+            categoria = "Zonificacion y catastro";
+            area = "Subgerencia de Catastro";
+            break;
+
+        case 5:
+            asunto = "Impuesto predial";
+            tramite = "Asuntos tributarios";
+            categoria = "Asuntos tributarios";
+            area = "Gerencia de Administracion Tributaria";
+            break;
+
+        case 6:
+            asunto = "Limpieza publica";
+            tramite = "Limpieza publica";
+            categoria = "Limpieza publica";
+            area = "Gerencia de Servicios Publicos";
+            break;
+
+        case 7:
+            asunto = "Mantenimiento de parques y jardines";
+            tramite = "Parques y jardines";
+            categoria = "Parques y jardines";
+            area = "Gerencia de Servicios Publicos";
+            break;
+
+        case 8:
+            asunto = "Licencia de funcionamiento de negocio";
+            tramite = "Formalizacion de negocios";
+            categoria = "Formalizacion de negocios";
+            area = "Subgerencia de Comercializacion";
+            break;
+
+        case 9:
+            asunto = "Senalizacion vial";
+            tramite = "Transito y senalizacion";
+            categoria = "Transito y senalizacion vial";
+            area = "Gerencia de Transporte";
+            break;
+
+        case 10:
+            Console.Write("Escriba el asunto: ");
+            asunto = Console.ReadLine()?.Trim() ?? "";
+
+            if (string.IsNullOrWhiteSpace(asunto))
+            {
+                Console.WriteLine("Error: debe escribir un asunto.");
+                return;
+            }
+
+            Console.Write("Escriba el tipo de tramite: ");
+            tramite = Console.ReadLine()?.Trim() ?? "";
+
+            if (string.IsNullOrWhiteSpace(tramite))
+            {
+                Console.WriteLine("Error: debe escribir el tipo de tramite.");
+                return;
+            }
+
+            categoria = "Pendiente de clasificacion";
+            area = "Mesa de Partes";
+            estado = "Pendiente de evaluacion y derivacion";
+            break;
+    }
+
+    var anteriorAsunto = exp.Asunto;
+    var anteriorTramite = exp.Tramite;
+    var anteriorCategoria = exp.Categoria;
+    var anteriorArea = exp.Area;
+    var anteriorEstado = exp.Estado;
+
+    exp.Asunto = asunto;
+    exp.Tramite = tramite;
+    exp.Categoria = categoria;
+    exp.Area = area;
+    exp.Estado = estado;
+
+    exp.Historial.Add(new Movimiento
+    {
         Fecha = DateTime.Now,
         Area = area,
-        Descripcion = $"Expediente derivado a {area}"
-      });
+        Descripcion = $"Asunto: {asunto} | Tramite: {tramite} | Categoria: {categoria} | Estado: {estado}"
+    });
 
-      if (!datos.Guardar())
-       {
-         exp.Area = anteriorArea;
-         exp.Estado = anteriorEstado;
-         exp.Historial.RemoveAt(exp.Historial.Count - 1);
+    if (!datos.Guardar())
+    {
+        exp.Asunto = anteriorAsunto;
+        exp.Tramite = anteriorTramite;
+        exp.Categoria = anteriorCategoria;
+        exp.Area = anteriorArea;
+        exp.Estado = anteriorEstado;
+        exp.Historial.RemoveAt(exp.Historial.Count - 1);
 
-         Console.WriteLine("Cambio cancelado: no se pudo guardar.");
-         return;
-       }
-
-         Console.WriteLine($"Expediente derivado a {area}.");
+        Console.WriteLine("Cambio cancelado: no se pudo guardar.");
+        return;
     }
+
+    Console.WriteLine("\n=== RESULTADO DEL TRAMITE ===");
+    Console.WriteLine($"Expediente: {exp.Codigo}");
+    Console.WriteLine($"Asunto: {exp.Asunto}");
+    Console.WriteLine($"Tipo de tramite: {exp.Tramite}");
+    Console.WriteLine($"Categoria: {exp.Categoria}");
+    Console.WriteLine($"Area de destino: {exp.Area}");
+    Console.WriteLine($"Estado: {exp.Estado}");
+
+    if (opcion == 10)
+    {
+        Console.WriteLine("\nEl asunto queda pendiente de clasificacion.");
+        Console.WriteLine("Mesa de Partes debe evaluarlo antes de derivarlo.");
+    }
+    else
+    {
+        Console.WriteLine("\nEl tramite fue clasificado y derivado correctamente.");
+    }
+}
+
 
     public static void Consultar(AlmacenExpedientes datos)
     {
@@ -266,7 +403,7 @@ public static class Modulos
         var lista = expedientes.ToList();
         if (lista.Count == 0) { Console.WriteLine("No hay expedientes registrados."); return; }
         foreach (var x in lista)
-            Console.WriteLine($"{x.Codigo} | {x.Solicitante} | {x.TipoDocumento} | {x.Asunto} | {x.FechaRegistro:dd/MM/yyyy HH:mm} | {x.Estado} | {x.Area}");
+            Console.WriteLine($"{x.Codigo} | {x.Solicitante} | {x.TipoDocumento} | {x.Asunto} | Tramite: {x.Tramite} | Categoria: {x.Categoria} | {x.FechaRegistro:dd/MM/yyyy HH:mm} | {x.Estado} | {x.Area}");
     }
 
     public static void Ordenar(AlmacenExpedientes datos)

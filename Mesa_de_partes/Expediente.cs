@@ -16,6 +16,8 @@ public class Expediente
     public string Solicitante { get; set; } = "";
     public string TipoDocumento { get; set; } = "";
     public string Asunto { get; set; } = "";
+    public string Tramite { get; set; } = "";
+    public string Categoria { get; set; } = "";
     public DateTime FechaRegistro { get; set; }
     public string Estado { get; set; } = "Pendiente de derivacion";
     public string Area { get; set; } = "Sin derivar";
