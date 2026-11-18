@@ -406,20 +406,31 @@ public static class Modulos
             Console.WriteLine($"{x.Codigo} | {x.Solicitante} | {x.TipoDocumento} | {x.Asunto} | Tramite: {x.Tramite} | Categoria: {x.Categoria} | {x.FechaRegistro:dd/MM/yyyy HH:mm} | {x.Estado} | {x.Area}");
     }
 
-    public static void Ordenar(AlmacenExpedientes datos)
-    {
-        Console.WriteLine("Ordenar por codigo: 1. Ascendente; 2. Descendente");
-        Console.Write("Seleccione el orden: ");
-        var opcion = Console.ReadLine()?.Trim();
-        if (opcion is not ("1" or "2"))
+    
+        public static void Ordenar(AlmacenExpedientes datos)
+   {
+           Console.WriteLine("Ordenar por codigo: 1. Ascendente; 2. Descendente");
+           Console.Write("Seleccione el orden: ");
+
+            string opcion = Console.ReadLine()?.Trim() ?? "";
+
+             if (opcion != "1" && opcion != "2")
         {
-            Console.WriteLine("Opcion no valida.");
-            return;
+              Console.WriteLine("Opcion no valida.");
+             return;
         }
-        var ordenados = opcion == "1"
-            ? datos.Expedientes.OrderBy(x => x.Numero)
-            : datos.Expedientes.OrderByDescending(x => x.Numero);
-        Console.WriteLine(opcion == "1" ? "Orden ascendente:" : "Orden descendente:");
+
+            Expediente[] ordenados = datos.Expedientes.ToArray();
+
+          Array.Sort(ordenados, (a, b) =>
+             opcion == "1"
+            ? a.Numero.CompareTo(b.Numero)
+            : b.Numero.CompareTo(a.Numero));
+
+            Console.WriteLine(opcion == "1"
+               ? "Orden ascendente:"
+               : "Orden descendente:");
+
         Mostrar(ordenados);
     }
 
