@@ -1,34 +1,97 @@
-# Mesa de partes digital (prototipo)
+# Sistema de Mesa de Partes Digital (Prototipo)
 
-Proyecto del curso Fundamentos de Programacion. La version integrada une el
-menu, registro, validacion de archivo, clasificacion, consulta, listado y
-ordenamiento de expedientes. Los registros se guardan en JSON para recuperarlos
-al reiniciar el programa.
+## 1. Descripción del proyecto
 
-## Ejecutar
+Proyecto académico desarrollado para el curso **Fundamentos de Programación**.
 
-Requiere .NET 9 SDK. Desde la raiz del repositorio:
+El sistema propone una solución informática básica para apoyar la gestión de documentos de la Municipalidad de San Juan de Lurigancho. Busca organizar el registro, la digitalización simulada, la clasificación, la consulta y el seguimiento de expedientes.
+
+El prototipo permite gestionar expedientes mediante un menú de opciones y almacenar la información en archivos JSON.
+
+## 2. Objetivo
+
+Desarrollar un prototipo de mesa de partes digital aplicando los fundamentos de programación, mediante el uso de estructuras de control, funciones, arreglos, cadenas de texto, validaciones y almacenamiento de información en archivos.
+
+## 3. Tecnologías utilizadas
+
+- **Lenguaje de programación:** C#
+- **Entorno de desarrollo:** Visual Studio Code
+- **Plataforma:** .NET 9
+- **Pseudocódigo:** PSeInt
+- **Almacenamiento:** archivos JSON
+- **Control de versiones:** Git y GitHub
+
+## 4. Funcionalidades implementadas
+
+El sistema cuenta con las siguientes opciones:
+
+1. **Registrar nuevo documento:** permite ingresar los datos del solicitante, documento, asunto y archivo asociado. Valida los datos y genera un código de expediente.
+2. **Digitalizar y validar documento:** comprueba la existencia, extensión y tamaño del archivo PDF o imagen. Incluye una simulación del proceso OCR.
+3. **Clasificar y derivar expediente:** permite asignar un trámite, categoría, área responsable y estado al expediente.
+4. **Consultar expediente:** permite buscar un expediente y revisar su estado, área, historial de movimientos o información completa.
+5. **Mostrar expedientes registrados:** presenta los expedientes almacenados.
+6. **Ordenar expedientes por código:** permite visualizar los expedientes en orden ascendente o descendente sin modificar el orden original de los datos.
+7. **Salir:** solicita confirmación antes de cerrar el sistema.
+
+## 5. Validaciones y almacenamiento
+
+- Validación del DNI o RUC del solicitante.
+- Validación de los datos ingresados.
+- Validación de la existencia y extensión del archivo.
+- Límite de tamaño de archivo de 5 MB.
+- Prevención de la digitalización repetida de un mismo expediente.
+- Búsqueda mediante el código completo o su número.
+- Registro del historial de movimientos del expediente.
+- Almacenamiento de la información en un archivo JSON para conservar los registros entre ejecuciones.
+
+El archivo `expedientes.json` se genera junto al ejecutable y está excluido del repositorio Git.
+
+## 6. Ejecución del sistema
+
+**Requisito:** tener instalado el SDK de .NET 9.
+
+Desde la carpeta raíz del repositorio, ejecutar:
 
 ```text
 dotnet run --project Mesa_de_partes/Mesa_de_partes.csproj
 ```
 
-El archivo `expedientes.json` se crea junto al ejecutable y esta excluido de Git.
-El pseudocodigo correspondiente esta en `docs/SistemaMesaDePartes.psc`.
-En la opcion 1 se indica el archivo PDF o imagen y su ruta queda asociada al
-expediente. La opcion 2 vuelve a comprobar ese mismo archivo y actualiza su
-estado, sin pedir la ruta otra vez. Para expedientes antiguos sin archivo, la
-opcion 2 permite indicarlo una sola vez. El archivo original permanece en su
-ubicacion; si se mueve o borra, la validacion posterior fallara.
-Al consultar, validar o derivar un expediente se puede escribir el codigo
-completo (`EXP-1001`) o solo su numero (`1001`).
-La opcion 5 lista los expedientes como se registraron. La opcion 6 permite
-mostrarlos por codigo en orden ascendente o descendente, sin modificar los datos.
+## 7. Archivos del proyecto
 
-## Alcance
+- `Mesa_de_partes/`: contiene el código fuente del sistema.
+- `docs/SistemaMesaDePartes.psc`: contiene el pseudocódigo desarrollado en PSeInt.
+- `README.md`: contiene la descripción y las instrucciones del proyecto.
 
-El registro y la digitalizacion comprueban que exista un archivo PDF o imagen,
-su extension y su tamano (hasta 5 MB). No realiza OCR. La derivacion registra un
-area y un estado, pero no envia notificaciones electronicas. El informe,
-presentacion, observacion de campo y declaracion de uso de IA son entregables
-separados del codigo.
+## 8. Alcance y limitaciones
+
+Este proyecto es un prototipo académico y no un sistema municipal de producción.
+
+La función OCR es simulada: no realiza reconocimiento ni extracción real de texto de los archivos PDF o imágenes.
+
+La validación comprueba características del archivo, pero no certifica la autenticidad ni el contenido del documento. La derivación registra el área y el estado del expediente, pero no realiza envíos ni notificaciones electrónicas.
+
+La implementación de OCR real, las notificaciones electrónicas y otras integraciones quedan como posibles mejoras futuras.
+
+El informe, la presentación, la observación de campo y la declaración de uso de inteligencia artificial son entregables complementarios del proyecto.
+
+## 9. Integrantes del equipo
+
+**1. Tatiana Yajaira Macalopu Coronado**
+
+Responsabilidad: Registro de documentos.
+
+**2. Harold Jair Calderon Chavez**
+
+Responsabilidad: Digitalización y OCR simulado.
+
+**3. Jhandy Rafael Pacherres Flores**
+
+Responsabilidad: Clasificación y derivación.
+
+**4. Fanny Zulema Quiñones Custodio**
+
+Responsabilidad: Menú principal e integración.
+
+**5. Miler Duvan Ortiz Quispe**
+
+Responsabilidad: Consulta de expedientes.
