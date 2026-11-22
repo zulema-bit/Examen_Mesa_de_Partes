@@ -1,12 +1,14 @@
 Algoritmo SistemaMesaDePartes
     // Prototipo de simulacion en PSeInt. El guardado en archivo se implementa en C#.
     Definir entrada, documento, nombre, tipo, asunto, ruta, codigoBuscar, confirma Como Caracter
-    Definir codigos, documentos, solicitantes, tipos, asuntos, rutas, fechas, estados, areas Como Caracter
+    Definir tramite, categoria, area Como Caracter
+    Definir codigos, documentos, solicitantes, tipos, asuntos, rutas, fechas, estados, areas, tramites, categorias Como Caracter
     Definir cantidad, siguiente, seleccion, i, j, k, pos Como Entero
     Definir valido, salir, intercambiar Como Logico
     Definir auxiliar Como Caracter
     Dimension codigos[100], documentos[100], solicitantes[100], tipos[100]
     Dimension asuntos[100], rutas[100], fechas[100], estados[100], areas[100]
+    Dimension tramites[100], categorias[100]
     cantidad <- 0
     siguiente <- 1001
     salir <- Falso
@@ -79,6 +81,8 @@ Algoritmo SistemaMesaDePartes
                         Leer fechas[pos]
                         estados[pos] <- "Registrado"
                         areas[pos] <- "Sin derivar"
+                        tramites[pos] <- ""
+                        categorias[pos] <- ""
                         cantidad <- cantidad + 1
                         siguiente <- siguiente + 1
                         Escribir "Registrado: ", codigos[pos]
@@ -89,6 +93,7 @@ Algoritmo SistemaMesaDePartes
             2:
                 Escribir "Codigo del expediente a validar:"
                 Leer codigoBuscar
+                codigoBuscar <- Mayusculas(codigoBuscar)
                 pos <- -1
                 Para i <- 1 Hasta cantidad Hacer
                     Si codigos[i] = codigoBuscar O codigos[i] = "EXP-" + codigoBuscar Entonces
@@ -108,55 +113,184 @@ Algoritmo SistemaMesaDePartes
                         Escribir "No se cambio el estado."
                     FinSi
                 FinSi
+
             3:
-                Escribir "Codigo del expediente a derivar:"
+                Escribir "Codigo del expediente a clasificar:"
                 Leer codigoBuscar
+                codigoBuscar <- Mayusculas(codigoBuscar)
                 pos <- -1
+
                 Para i <- 1 Hasta cantidad Hacer
                     Si codigos[i] = codigoBuscar O codigos[i] = "EXP-" + codigoBuscar Entonces
                         pos <- i
                     FinSi
                 FinPara
+
                 Si pos = -1 Entonces
                     Escribir "Expediente no encontrado."
                 SiNo
-                    Escribir "1. Obras; 2. Desarrollo Urbano; 3. Otra area"
+                    Escribir "===== SELECCIONE EL ASUNTO ====="
+                    Escribir "1. Reparacion de pistas y veredas"
+                    Escribir "2. Licencia de edificacion"
+                    Escribir "3. Habilitacion urbana"
+                    Escribir "4. Zonificacion o catastro"
+                    Escribir "5. Impuesto predial"
+                    Escribir "6. Limpieza publica"
+                    Escribir "7. Mantenimiento de parques y jardines"
+                    Escribir "8. Licencia de funcionamiento de negocio"
+                    Escribir "9. Senalizacion vial"
+                    Escribir "10. Escribir asunto manualmente"
+                    Escribir "Seleccione una opcion (1-10):"
                     Leer entrada
+
+                    valido <- Verdadero
+                    asunto <- ""
+                    tramite <- ""
+                    categoria <- ""
+                    area <- ""
+
+
                     Segun entrada Hacer
-                        "1": areas[pos] <- "Subgerencia de Obras"
-                        "2": areas[pos] <- "Desarrollo Urbano"
-                        "3": areas[pos] <- "Area correspondiente"
-                        De Otro Modo: areas[pos] <- "Sin derivar"
+                        "1":
+                            asunto <- "Reparacion de pistas y veredas"
+                            tramite <- "Obras y pistas"
+                            categoria <- "Obras publicas"
+                            area <- "Gerencia de Desarrollo Urbano"
+                        "2":
+                            asunto <- "Licencia de edificacion"
+                            tramite <- "Licencias de edificacion"
+                            categoria <- "Licencias y edificaciones"
+                            area <- "Subgerencia de Obras Privadas"
+                        "3":
+                            asunto <- "Habilitacion urbana"
+                            tramite <- "Habilitacion urbana"
+                            categoria <- "Habilitacion urbana"
+                            area <- "Subgerencia de Planeamiento Urbano"
+                        "4":
+                            asunto <- "Zonificacion o catastro"
+                            tramite <- "Zonificacion y catastro"
+                            categoria <- "Zonificacion y catastro"
+                            area <- "Subgerencia de Catastro"
+                        "5":
+                            asunto <- "Impuesto predial"
+                            tramite <- "Asuntos tributarios"
+                            categoria <- "Asuntos tributarios"
+                            area <- "Gerencia de Administracion Tributaria"
+                        "6":
+                            asunto <- "Limpieza publica"
+                            tramite <- "Limpieza publica"
+                            categoria <- "Limpieza publica"
+                            area <- "Gerencia de Servicios Publicos"
+                        "7":
+                            asunto <- "Mantenimiento de parques y jardines"
+                            tramite <- "Parques y jardines"
+                            categoria <- "Parques y jardines"
+                            area <- "Gerencia de Servicios Publicos"
+                        "8":
+                            asunto <- "Licencia de funcionamiento de negocio"
+                            tramite <- "Formalizacion de negocios"
+                            categoria <- "Formalizacion de negocios"
+                            area <- "Subgerencia de Comercializacion"
+                        "9":
+                            asunto <- "Senalizacion vial"
+                            tramite <- "Transito y senalizacion"
+                            categoria <- "Transito y senalizacion vial"
+                            area <- "Gerencia de Transporte"
+                        "10":
+                            Escribir "Escriba el asunto:"
+                            Leer asunto
+                            Escribir "Escriba el tipo de tramite:"
+                            Leer tramite
+
+                            Si asunto = "" O tramite = "" Entonces
+                                valido <- Falso
+                            SiNo
+                                categoria <- "Pendiente de clasificacion"
+                                area <- "Mesa de Partes"
+                                estados[pos] <- "Pendiente de evaluacion y derivacion"
+                            FinSi
+                        De Otro Modo:
+                            valido <- Falso
                     FinSegun
-                    Si areas[pos] = "Sin derivar" Entonces
-                        Escribir "Seleccion invalida."
+
+                  Si valido Entonces
+                        Si entrada <> "10" Entonces
+                            estados[pos] <- "En proceso"
+                        FinSi
+
+                        asuntos[pos] <- asunto
+                        tramites[pos] <- tramite
+                        categorias[pos] <- categoria
+                        areas[pos] <- area
+
+                        Escribir "Expediente clasificado correctamente."
+                        Escribir "Asunto: ", asuntos[pos]
+                        Escribir "Tramite: ", tramites[pos]
+                        Escribir "Categoria: ", categorias[pos]
+                        Escribir "Area responsable: ", areas[pos]
+                        Escribir "Estado: ", estados[pos]
                     SiNo
-                        estados[pos] <- "En proceso"
-                        Escribir "Derivado a: ", areas[pos]
+                        Escribir "Error: opcion o datos no validos."
                     FinSi
                 FinSi
+
+
             4:
-                Escribir "Codigo a consultar:"
+                Escribir "Codigo del expediente a consultar:"
                 Leer codigoBuscar
+                codigoBuscar <- Mayusculas(codigoBuscar)
                 pos <- -1
+
                 Para i <- 1 Hasta cantidad Hacer
                     Si codigos[i] = codigoBuscar O codigos[i] = "EXP-" + codigoBuscar Entonces
                         pos <- i
                     FinSi
                 FinPara
+
                 Si pos = -1 Entonces
                     Escribir "Expediente no encontrado."
                 SiNo
-                    Escribir "Codigo: ", codigos[pos]
-                    Escribir "DNI/RUC: ", documentos[pos]
-                    Escribir "Solicitante: ", solicitantes[pos]
-                    Escribir "Tipo: ", tipos[pos]
-                    Escribir "Asunto: ", asuntos[pos]
-                    Escribir "Fecha: ", fechas[pos]
-                    Escribir "Estado: ", estados[pos]
-                    Escribir "Area: ", areas[pos]
-                    Escribir "Archivo asociado: ", rutas[pos]
+                    Escribir "DNI/RUC del solicitante:"
+                    Leer documento
+
+                    Si documentos[pos] <> documento Entonces
+                        Escribir "DNI/RUC no corresponde al expediente."
+                    SiNo
+                        Escribir "===== TIPO DE CONSULTA ====="
+                        Escribir "1. Consultar estado"
+                        Escribir "2. Consultar area responsable"
+                        Escribir "3. Consultar historial"
+                        Escribir "4. Mostrar datos completos"
+                        Escribir "Seleccione una opcion:"
+                        Leer entrada
+
+                        Segun entrada Hacer
+                            "1":
+                                Escribir "Codigo: ", codigos[pos]
+                                Escribir "Estado: ", estados[pos]
+                            "2":
+                                Escribir "Codigo: ", codigos[pos]
+                                Escribir "Area responsable: ", areas[pos]
+                            "3":
+                                Escribir "El historial detallado se implementa en C#."
+                            "4":
+                                Escribir "Codigo: ", codigos[pos]
+                                Escribir "DNI/RUC: ", documentos[pos]
+                                Escribir "Solicitante: ", solicitantes[pos]
+                                Escribir "Tipo de documento: ", tipos[pos]
+                                Escribir "Asunto: ", asuntos[pos]
+                                Escribir "Tipo de tramite: ", tramites[pos]
+                                Escribir "Categoria: ", categorias[pos]
+                                Escribir "Fecha de registro: ", fechas[pos]
+                                Escribir "Estado: ", estados[pos]
+                                Escribir "Area responsable: ", areas[pos]
+                                Escribir "Archivo asociado: ", rutas[pos]
+                            De Otro Modo:
+                                Escribir "Opcion no valida."
+                        FinSegun
+                    FinSi
                 FinSi
+
             5:
                 Si cantidad = 0 Entonces
                     Escribir "No hay expedientes registrados."
@@ -209,6 +343,12 @@ Algoritmo SistemaMesaDePartes
                                 auxiliar <- areas[j]
                                 areas[j] <- areas[j+1]
                                 areas[j+1] <- auxiliar
+                                auxiliar <- tramites[j]
+                                tramites[j] <- tramites[j+1]
+                                tramites[j+1] <- auxiliar
+                                auxiliar <- categorias[j]
+                                categorias[j] <- categorias[j+1]
+                                categorias[j+1] <- auxiliar
                             FinSi
                         FinPara
                       FinPara
